@@ -1,0 +1,6 @@
+@DaltroStore.Identity.API_HostAddress = http://localhost:5001
+
+GET {{DaltroStore.Identity.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

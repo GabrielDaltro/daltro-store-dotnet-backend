@@ -7,12 +7,12 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 using System.Text;
+using System.Data;
 
 namespace DaltroStore.Identity.API.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
@@ -30,7 +30,7 @@ namespace DaltroStore.Identity.API.Controllers
         [HttpPost("create-account")]
         public async Task<ActionResult> Register(UserRegisterDto userRegisterDto)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomBadRequest(ModelState);
 
             var identityUser = new IdentityUser
             {
@@ -42,18 +42,17 @@ namespace DaltroStore.Identity.API.Controllers
             var registerResult = await userManager.CreateAsync(identityUser, userRegisterDto.Password);
 
             if (registerResult.Succeeded)
-            {
-                await signInManager.SignInAsync(identityUser, isPersistent: false);
                 return CreatedAtAction(nameof(Register), await GenerateJwt(identityUser));
-            }
 
-            return BadRequest(registerResult.Errors.Select(identityError => identityError.Description));
+            foreach (var registrationError in registerResult.Errors)
+                AddProcessingError(registrationError.Description);
+            return CustomBadRequest();
         }
 
         [HttpPost("login")]
         public async Task<ActionResult> Login(UserLoginDto userLoginDto)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomBadRequest(ModelState);
 
             var result = await signInManager.PasswordSignInAsync(userLoginDto.Email, userLoginDto.Password,
                 isPersistent: false, lockoutOnFailure: true);
@@ -65,40 +64,25 @@ namespace DaltroStore.Identity.API.Controllers
                     return Ok(await GenerateJwt(identityUser));
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            return BadRequest();
+            else if (result.IsLockedOut) 
+            {
+                AddProcessingError("Usuário temporariamente bloqueado por exceder número de tentativas");
+                return CustomBadRequest();
+            }
+            else
+            {
+                AddProcessingError("Email ou senha incorretos");
+                return CustomBadRequest();
+            }
         }
 
         private async Task<UserLoginResponseDto> GenerateJwt(IdentityUser user)
         {
-            var claims = await userManager.GetClaimsAsync(user);
-            IEnumerable<string> roles = await userManager.GetRolesAsync(user);
-
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToTimestamp(DateTime.UtcNow).ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToTimestamp(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
-
-            foreach (var role in roles)
-                claims.Add(new Claim("role", role));
-
-            var identityClaims = new ClaimsIdentity(claims);
-
-            var tokenHandler = new JsonWebTokenHandler();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-
-            var token = tokenHandler.CreateToken(new SecurityTokenDescriptor()
-            {
-                Issuer = appSettings.Issuer,
-                Audience = appSettings.Audience,
-                Subject = identityClaims,
-                Expires = DateTime.UtcNow.AddHours(appSettings.ExpirationHours),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            });
+            IList<Claim> claims = await GetClaimsIdentity(user);
 
             var response = new UserLoginResponseDto()
             {
-                AcessToken = token,
+                AcessToken = GenerateToken(claims),
                 ExpiresIn = TimeSpan.FromHours(appSettings.ExpirationHours).TotalSeconds,
                 UserToken = new UserTokenDto()
                 {
@@ -109,6 +93,38 @@ namespace DaltroStore.Identity.API.Controllers
             };
 
             return response;
+        }
+
+        private async Task<IList<Claim>> GetClaimsIdentity(IdentityUser user)
+        {
+            IEnumerable<string> roles = await userManager.GetRolesAsync(user);
+            IList<Claim> claims = await userManager.GetClaimsAsync(user);
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email!));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToTimestamp(DateTime.UtcNow).ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToTimestamp(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
+
+            foreach (var role in roles)
+                claims.Add(new Claim("role", role));
+
+            return claims;
+        }
+
+        private string GenerateToken(IList<Claim> claims)
+        {
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var tokenHandler = new JsonWebTokenHandler();
+            string token = tokenHandler.CreateToken(new SecurityTokenDescriptor()
+            {
+                Issuer = appSettings.Issuer,
+                Audience = appSettings.Audience,
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(appSettings.ExpirationHours),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            });
+
+            return token;
         }
 
         private static long ToTimestamp(DateTime date)

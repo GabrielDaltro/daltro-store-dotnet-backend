@@ -23,12 +23,13 @@ builder.Services
     .AddDefaultIdentity<IdentityUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
+    .AddErrorDescriber<IdentityPortugueseErrorDescriber>()
     .AddDefaultTokenProviders();
 
 IConfigurationSection appSettingsSection = builder.Configuration.GetSection("AppSettings");
 builder.Services.Configure<AppSettings>(appSettingsSection);
 
-AppSettings appSettings = builder.Configuration.Get<AppSettings>() ?? throw new Exception("AppSettings is null");
+AppSettings appSettings = appSettingsSection.Get<AppSettings>() ?? throw new Exception("AppSettings is null");
 
 builder.Services.AddAuthentication(options =>
 {
@@ -62,6 +63,17 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Development", builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -71,6 +83,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Development");
 
 app.UseAuthentication();
 

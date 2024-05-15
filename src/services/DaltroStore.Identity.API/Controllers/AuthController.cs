@@ -28,7 +28,9 @@ namespace DaltroStore.Identity.API.Controllers
         }
 
         [HttpPost("create-account")]
-        public async Task<ActionResult> Register(UserRegisterDto userRegisterDto)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UserLoginResponseDto>> Register(UserRegisterDto userRegisterDto)
         {
             if (!ModelState.IsValid) return CustomBadRequest(ModelState);
 
@@ -50,7 +52,9 @@ namespace DaltroStore.Identity.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login(UserLoginDto userLoginDto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails) ,StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UserLoginResponseDto>> Login(UserLoginDto userLoginDto)
         {
             if (!ModelState.IsValid) return CustomBadRequest(ModelState);
 

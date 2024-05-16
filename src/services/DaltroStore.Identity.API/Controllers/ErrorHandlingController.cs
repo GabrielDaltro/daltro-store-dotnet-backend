@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Diagnostics;
 namespace DaltroStore.Identity.API.Controllers
 {
     [ApiController]
-    public class ErrorHandlingController : Controller
+    public class ErrorHandlingController : ControllerBase
     {
         [Route("/error")]
         [ApiExplorerSettings(IgnoreApi = true)]

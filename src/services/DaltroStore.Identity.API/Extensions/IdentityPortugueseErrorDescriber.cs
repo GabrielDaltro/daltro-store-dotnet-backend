@@ -22,7 +22,7 @@ namespace DaltroStore.Identity.API.Extensions
             => new IdentityError { Code = nameof(LoginAlreadyAssociated), Description = $"Já existe um usuário com este login." };
 
         public override IdentityError InvalidUserName(string userName)
-            => new IdentityError { Code = nameof(InvalidUserName), Description = $"O login '{userName}' é inválido,pode conter apenas letras ou digitos" };
+            => new IdentityError { Code = nameof(InvalidUserName), Description = $"O login '{userName}' é inválido, pode conter apenas letras ou digitos" };
         
 
         public override IdentityError InvalidEmail(string email)

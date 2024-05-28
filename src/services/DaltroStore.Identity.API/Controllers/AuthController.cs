@@ -86,12 +86,13 @@ namespace DaltroStore.Identity.API.Controllers
 
             var response = new UserLoginResponseDto()
             {
-                AcessToken = GenerateToken(claims),
+                AccessToken = GenerateToken(claims),
                 ExpiresIn = TimeSpan.FromHours(appSettings.ExpirationHours).TotalSeconds,
                 UserToken = new UserTokenDto()
                 {
                     Id = user.Id,
                     Email = user.Email,
+                    Name = user.UserName,
                     Claims = claims.Select(claim => new UserClaimDto { Type = claim.Type, Value = claim.Value })
                 }
             };

@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using System.Security.Claims;
 using System.Text;
 using System.Data;
+using DaltroStore.Identity.API.Services;
 
 namespace DaltroStore.Identity.API.Controllers
 {
@@ -16,15 +17,13 @@ namespace DaltroStore.Identity.API.Controllers
     {
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly UserManager<IdentityUser> userManager;
-        private readonly AppSettings appSettings;
+        private readonly JwtGeneratorService jwtGeneratorService;
 
         public AuthController(SignInManager<IdentityUser> signInManager,
-                              UserManager<IdentityUser> userManager,
-                              IOptions<AppSettings> appSettings)
+                              UserManager<IdentityUser> userManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
-            this.appSettings = appSettings.Value;
         }
 
         [HttpPost("create-account")]
@@ -44,7 +43,7 @@ namespace DaltroStore.Identity.API.Controllers
             var registerResult = await userManager.CreateAsync(identityUser, userRegisterDto.Password);
 
             if (registerResult.Succeeded)
-                return CreatedAtAction(nameof(Register), await GenerateJwt(identityUser));
+                return CreatedAtAction(nameof(Register), await jwtGeneratorService.GenerateJwt(identityUser));
 
             foreach (var registrationError in registerResult.Errors)
                 AddProcessingError(registrationError.Description);
@@ -65,7 +64,7 @@ namespace DaltroStore.Identity.API.Controllers
             {
                 IdentityUser? identityUser = await userManager.FindByEmailAsync(userLoginDto.Email);
                 if (identityUser != null)
-                    return Ok(await GenerateJwt(identityUser));
+                    return Ok(await jwtGeneratorService.GenerateJwt(identityUser));
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
             else if (result.IsLockedOut) 
@@ -78,64 +77,6 @@ namespace DaltroStore.Identity.API.Controllers
                 AddProcessingError("Email ou senha incorretos");
                 return CustomBadRequest();
             }
-        }
-
-        private async Task<UserLoginResponseDto> GenerateJwt(IdentityUser user)
-        {
-            IList<Claim> claims = await GetClaimsIdentity(user);
-
-            var response = new UserLoginResponseDto()
-            {
-                AccessToken = GenerateToken(claims),
-                ExpiresIn = TimeSpan.FromHours(appSettings.ExpirationHours).TotalSeconds,
-                UserToken = new UserTokenDto()
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    Name = user.UserName,
-                    Claims = claims.Select(claim => new UserClaimDto { Type = claim.Type, Value = claim.Value })
-                }
-            };
-
-            return response;
-        }
-
-        private async Task<IList<Claim>> GetClaimsIdentity(IdentityUser user)
-        {
-            IEnumerable<string> roles = await userManager.GetRolesAsync(user);
-            IList<Claim> claims = await userManager.GetClaimsAsync(user);
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email!));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToTimestamp(DateTime.UtcNow).ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToTimestamp(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
-
-            foreach (var role in roles)
-                claims.Add(new Claim("role", role));
-
-            return claims;
-        }
-
-        private string GenerateToken(IList<Claim> claims)
-        {
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            var tokenHandler = new JsonWebTokenHandler();
-            string token = tokenHandler.CreateToken(new SecurityTokenDescriptor()
-            {
-                Issuer = appSettings.Issuer,
-                Audience = appSettings.Audience,
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(appSettings.ExpirationHours),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            });
-
-            return token;
-        }
-
-        private static long ToTimestamp(DateTime date)
-        {
-            TimeSpan deltaTime = date.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            return (long)Math.Round(deltaTime.TotalSeconds);
         }
     }
 }

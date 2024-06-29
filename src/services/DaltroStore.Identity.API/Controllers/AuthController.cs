@@ -20,10 +20,12 @@ namespace DaltroStore.Identity.API.Controllers
         private readonly JwtGeneratorService jwtGeneratorService;
 
         public AuthController(SignInManager<IdentityUser> signInManager,
-                              UserManager<IdentityUser> userManager)
+                              UserManager<IdentityUser> userManager,
+                              JwtGeneratorService jwtGeneratorService)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.jwtGeneratorService = jwtGeneratorService;
         }
 
         [HttpPost("create-account")]

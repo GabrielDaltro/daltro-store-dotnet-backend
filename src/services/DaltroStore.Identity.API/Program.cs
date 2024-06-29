@@ -1,6 +1,7 @@
 using DaltroStore.Identity.API.Data;
 using Microsoft.EntityFrameworkCore;
 using DaltroStore.Identity.API.Configuration;
+using DaltroStore.Identity.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{environmentName}.json", optional: false, reloadOnChange: true)
     .Build();
+
+builder.Services.AddScoped<JwtGeneratorService>();
 
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder => 
     optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))

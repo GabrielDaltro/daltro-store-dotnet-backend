@@ -6,29 +6,34 @@ namespace DaltroStore.Identity.API.Controllers
     [ApiController]
     public abstract class MainController : ControllerBase
     {
-        protected ICollection<string> errors = new List<string>();
+        protected IDictionary<string, string[]> errors = new Dictionary<string, string[]>();
         
         protected BadRequestObjectResult CustomBadRequest()
         {
-            return BadRequest(new ValidationProblemDetails(
-                new Dictionary<string, string[]>()
-                {
-                    {"Message", errors.ToArray() }
-                })
-            );
+            return BadRequest(new ValidationProblemDetails(errors));
         }
 
         protected BadRequestObjectResult CustomBadRequest(ModelStateDictionary modelState)
-        {
-            IEnumerable<ModelError> errors = modelState.Values.SelectMany(x => x.Errors);
-            foreach (ModelError error in errors) 
-            {
-                this.errors.Add(error.ErrorMessage);
-            }
-            return CustomBadRequest();
+        {           
+            return BadRequest(new ValidationProblemDetails(modelState));
         }
 
-        protected void AddProcessingError(string error) => errors.Add(error);
+        protected ObjectResult CustomInternalServerError(string title)
+        {
+            return Problem(statusCode: StatusCodes.Status500InternalServerError, title: title);
+        }
+
+        protected ObjectResult CustomTooManyRequests(string title)
+        {
+            return Problem(statusCode: StatusCodes.Status429TooManyRequests, title: title);
+        }
+
+        protected ObjectResult CustomUnauthorized(string title)
+        {
+            return Problem(statusCode: StatusCodes.Status401Unauthorized, title: title);
+        }
+
+        protected void AddProcessingError(string key, string[] errors) => this.errors.Add(key, errors);
 
         protected void CleanProcessingErrors() => errors.Clear();
     }

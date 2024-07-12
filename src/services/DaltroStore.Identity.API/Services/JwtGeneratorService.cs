@@ -23,10 +23,17 @@ namespace DaltroStore.Identity.API.Services
         public async Task<UserLoginResponseDto> GenerateJwt(IdentityUser user)
         {
             IEnumerable<Claim> claims = await GetClaimsIdentity(user);
+
+            if (string.IsNullOrEmpty(user.Email))
+                throw new ArgumentException($"Email of user id {user.Id} is NULL or EMPTY");
+
+            if (string.IsNullOrEmpty(user.UserName))
+                throw new ArgumentException($"UserName of user id {user.Id} is NULL or EMPTY");
+
             var response = new UserLoginResponseDto(
             id: user.Id,
-            email: user.Email ?? throw new AuthServiceException($"{user.Email} of user id {user.Id} is NULL"),
-            name: user.UserName ?? throw new AuthServiceException($"{user.UserName} of user id {user.Id} is NULL"),
+            email: user.Email, 
+            name: user.UserName,
             claims: claims.Select(claim => new UserClaimDto(claim.Value, claim.Type)),
             tokenInfo: new UserTokenInfoDto(GenerateToken(claims), TimeSpan.FromHours(appSettings.ExpirationHours).TotalSeconds)
             );

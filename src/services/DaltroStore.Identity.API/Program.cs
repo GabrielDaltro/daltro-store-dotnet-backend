@@ -22,6 +22,7 @@ builder.Services.ConfigIdentity(builder.Configuration);
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
     {
+        options.SuppressModelStateInvalidFilter = true;
         options.SuppressMapClientErrors = true;
     });
 

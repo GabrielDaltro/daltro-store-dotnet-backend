@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Diagnostics;
 namespace DaltroStore.Identity.API.Controllers
 {
     [ApiController]
-    public class ErrorHandlingController : ControllerBase
+    public class ErrorHandlingController : MainController
     {
         [Route("/error")]
         [ApiExplorerSettings(IgnoreApi = true)]
         public IActionResult HandleError()
         {
-            return Problem(statusCode: StatusCodes.Status500InternalServerError, title: "An unexpected error occurred");
+            return CustomInternalServerError(title: "Um erro inesperado ocorreu");
         }
 
         [Route("/error-development")]
@@ -20,7 +20,7 @@ namespace DaltroStore.Identity.API.Controllers
             var exceptionsFeatures = HttpContext.Features.Get<IExceptionHandlerFeature>()!;
             return Problem(detail: exceptionsFeatures.Error.StackTrace, 
                            statusCode: StatusCodes.Status500InternalServerError,
-                           title: exceptionsFeatures.Error.Message);
+                           title: "Um erro inesperado ocorreu");
         }
     }
 }

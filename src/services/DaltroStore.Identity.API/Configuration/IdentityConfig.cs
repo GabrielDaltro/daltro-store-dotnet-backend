@@ -2,6 +2,7 @@
 using DaltroStore.Identity.API.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -12,7 +13,11 @@ namespace DaltroStore.Identity.API.Configuration
         public static IServiceCollection ConfigIdentity(this IServiceCollection services, IConfiguration configuration) 
         {
             services
-            .AddDefaultIdentity<IdentityUser>()
+            .AddDefaultIdentity<IdentityUser>(configureOptions =>
+            {
+                configureOptions.User.RequireUniqueEmail = true;
+                configureOptions.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+            })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddErrorDescriber<IdentityPortugueseErrorDescriber>()

@@ -1,13 +1,6 @@
-﻿using DaltroStore.Identity.API.Extensions;
-using DaltroStore.Identity.API.Models;
+﻿using DaltroStore.Identity.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.IdentityModel.JsonWebTokens;
-using System.Security.Claims;
-using System.Text;
-using System.Data;
 using DaltroStore.Identity.API.Services;
 
 namespace DaltroStore.Identity.API.Controllers
@@ -46,38 +39,41 @@ namespace DaltroStore.Identity.API.Controllers
 
             if (registerResult.Succeeded)
                 return CreatedAtAction(nameof(Register), await jwtGeneratorService.GenerateJwt(identityUser));
-
-            foreach (var registrationError in registerResult.Errors)
-                AddProcessingError(registrationError.Description);
-            return CustomBadRequest();
+            else
+            {
+                AddProcessingError("register", registerResult.Errors.Select(error => error.Description).ToArray());
+                return CustomBadRequest();
+            }
         }
 
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails) ,StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status429TooManyRequests)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UserLoginResponseDto>> Login(UserLoginDto userLoginDto)
         {
             if (!ModelState.IsValid) return CustomBadRequest(ModelState);
 
-            var result = await signInManager.PasswordSignInAsync(userLoginDto.Email, userLoginDto.Password,
+            IdentityUser? identityUser = await userManager.FindByEmailAsync(userLoginDto.Email);
+            if (identityUser == null)
+                return CustomUnauthorized(title: "Email ou senha incorretos");
+
+            var result = await signInManager.PasswordSignInAsync(identityUser, userLoginDto.Password,
                 isPersistent: false, lockoutOnFailure: true);
 
             if (result.Succeeded)
             {
-                IdentityUser? identityUser = await userManager.FindByEmailAsync(userLoginDto.Email);
-                if (identityUser != null)
-                    return Ok(await jwtGeneratorService.GenerateJwt(identityUser));
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return Ok(await jwtGeneratorService.GenerateJwt(identityUser));
             }
-            else if (result.IsLockedOut) 
+            else if (result.IsLockedOut)
             {
-                AddProcessingError("Usuário temporariamente bloqueado por exceder número de tentativas");
-                return CustomBadRequest();
+                return CustomTooManyRequests(title: "Usuário temporariamente bloqueado por exceder número de tentativas");
             }
             else
             {
-                AddProcessingError("Email ou senha incorretos");
-                return CustomBadRequest();
+                return CustomUnauthorized(title: "Email ou senha incorretos");
             }
         }
     }

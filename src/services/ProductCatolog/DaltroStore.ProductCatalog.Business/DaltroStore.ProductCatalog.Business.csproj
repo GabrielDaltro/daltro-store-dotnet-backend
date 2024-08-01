@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\..\..\building blocks\Core\DaltroStore.Core\DaltroStore.Core.csproj" />
   </ItemGroup>
-
 </Project>

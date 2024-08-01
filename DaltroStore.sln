@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaltroStore.Identity.API", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{936B1901-A95E-416E-A042-2056F41037C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DaltroStore.ProductCatolog.API", "src\services\ProductCatolog\DaltroStore.ProductCatolog.API\DaltroStore.ProductCatolog.API.csproj", "{7F3C1021-4AF3-4AED-8AF3-C64687898DD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductCatolog", "ProductCatolog", "{D80F8C1D-B892-4F2B-B5A0-99AA4CB764D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,10 @@ Global
 		{527F651B-9F9C-4322-A367-15B7817389A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{527F651B-9F9C-4322-A367-15B7817389A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{527F651B-9F9C-4322-A367-15B7817389A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F3C1021-4AF3-4AED-8AF3-C64687898DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F3C1021-4AF3-4AED-8AF3-C64687898DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F3C1021-4AF3-4AED-8AF3-C64687898DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F3C1021-4AF3-4AED-8AF3-C64687898DD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +40,8 @@ Global
 		{9138E582-F0E5-4E7C-A97A-BE7E0705EC6E} = {2772DB08-B120-4457-8ED1-00A08570877D}
 		{527F651B-9F9C-4322-A367-15B7817389A9} = {936B1901-A95E-416E-A042-2056F41037C5}
 		{936B1901-A95E-416E-A042-2056F41037C5} = {83294709-7081-42CC-911F-869D825EBB3A}
+		{7F3C1021-4AF3-4AED-8AF3-C64687898DD7} = {D80F8C1D-B892-4F2B-B5A0-99AA4CB764D5}
+		{D80F8C1D-B892-4F2B-B5A0-99AA4CB764D5} = {83294709-7081-42CC-911F-869D825EBB3A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {09993222-8D9F-4B41-8C26-5B4132011A38}

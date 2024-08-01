@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Business.csproj" />
+  </ItemGroup>
+
 </Project>

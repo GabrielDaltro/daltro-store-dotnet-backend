@@ -18,4 +18,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Business.csproj" />
+    <ProjectReference Include="..\DaltroStore.ProductCatalog.Data\DaltroStore.ProductCatalog.Data.csproj" />
+  </ItemGroup>
+
 </Project>

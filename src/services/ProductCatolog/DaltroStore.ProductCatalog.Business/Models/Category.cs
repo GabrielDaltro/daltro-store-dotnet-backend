@@ -31,6 +31,7 @@ namespace DaltroStore.ProductCatalog.Business.Models
 
         public void Validate()
         {
+            AssertionConcern.AssertIsNotEquals(Id, Guid.Empty, "the product id can not be empty");
             AssertionConcern.AssertIsNotNull(name, "category name can not be null");
             AssertionConcern.AssertIsNotEmpty(Name, "category name can not be empty");
         }

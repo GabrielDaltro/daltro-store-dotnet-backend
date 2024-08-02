@@ -148,6 +148,7 @@ namespace DaltroStore.ProductCatalog.Business.Models
 
         public void Validate()
         {
+            AssertionConcern.AssertIsNotEquals(Id, Guid.Empty, "the product id can not be empty");
             AssertionConcern.AssertIsNotNull(name, "product name can not be null");
             AssertionConcern.AssertIsNotEmpty(name, "product name can not be empty");
             AssertionConcern.AssertIsNotNull(description, "product description can not be null");
@@ -157,9 +158,6 @@ namespace DaltroStore.ProductCatalog.Business.Models
             AssertionConcern.AssertIsGreaterThan(minPriceValue, expcted: minPriceValue, $"The product price must be greater than {minPriceValue}");
             AssertionConcern.AssertIsGreaterThan(weight, expcted: minWeightValue, $"The product weight must be greater than {minWeightValue}");
             dimession.Validate();
-
-            /* validar Guid id ????*/
-            throw new NotImplementedException();
         }
     }
 }

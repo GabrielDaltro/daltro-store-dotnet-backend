@@ -7,6 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\building blocks\Core\DaltroStore.Core\DaltroStore.Core.csproj" />
+    <ProjectReference Include="..\..\..\buildingblocks\Core\DaltroStore.Core\DaltroStore.Core.csproj" />
   </ItemGroup>
 </Project>

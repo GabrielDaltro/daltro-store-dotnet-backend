@@ -6,16 +6,16 @@ namespace DaltroStore.ProductCatalog.Domain.Repositories
     {
         Task<IEnumerable<Category>> GetAll();
 
-        Task<Category> GetById(Guid id);
+        Task<Category?> GetById(Guid id);
         
-        Task<Category> GetByName(string name);
+        Task<Category?> GetByName(string name);
         
-        Task<Category> GetByCode(int code);
+        Task<Category?> GetByCode(int code);
 
-        Task Add(Category category);
+        void Add(Category category);
 
-        Task Update(Category category);
+        void Update(Category category);
 
-        Task DeleteById(Guid id);
+        void Delete(Category category);
     }
 }

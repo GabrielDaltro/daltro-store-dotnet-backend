@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Business.csproj" />
+    <ProjectReference Include="..\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Domain.csproj" />
   </ItemGroup>
 
 </Project>

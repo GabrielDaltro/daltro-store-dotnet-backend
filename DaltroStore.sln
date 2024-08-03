@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaltroStore.ProductCatolog.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductCatolog", "ProductCatolog", "{D80F8C1D-B892-4F2B-B5A0-99AA4CB764D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaltroStore.ProductCatalog.Business", "src\services\ProductCatolog\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Business.csproj", "{CA93F604-C38A-4242-8B9A-818F20FB4B57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaltroStore.ProductCatalog.Domain", "src\services\ProductCatolog\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Domain.csproj", "{CA93F604-C38A-4242-8B9A-818F20FB4B57}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaltroStore.ProductCatalog.Data", "src\services\ProductCatolog\DaltroStore.ProductCatalog.Data\DaltroStore.ProductCatalog.Data.csproj", "{9369581D-56AA-42D6-9BB2-B1E011A74132}"
 EndProject

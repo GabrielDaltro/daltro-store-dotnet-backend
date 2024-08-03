@@ -1,6 +1,17 @@
+using DaltroStore.ProductCatalog.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var environmentName = builder.Environment.EnvironmentName;
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{environmentName}.json", optional: false, reloadOnChange: true)
+    .Build();
+
+builder.Services.AddDbContext<ProductCatalogDbContext>(optionsBuilder => 
+        optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")),
+        ServiceLifetime.Scoped);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

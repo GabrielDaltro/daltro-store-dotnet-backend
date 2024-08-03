@@ -17,6 +17,8 @@ namespace DaltroStore.ProductCatalog.Domain.Models
             this.code = code;
         }
 
+        private Category() { }
+
         public void ChangeName(string newName) 
         {
             AssertionConcern.AssertIsNotNull(newName, "category name can not be null");

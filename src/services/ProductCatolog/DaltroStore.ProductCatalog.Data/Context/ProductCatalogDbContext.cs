@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DaltroStore.ProductCatalog.Infrastructure.Context
 {
-    internal class ProductCatalogDbContext : DbContext, IUnitOfWork
+    public class ProductCatalogDbContext : DbContext, IUnitOfWork
     {
         public DbSet<Product> Products { get; set; }
 

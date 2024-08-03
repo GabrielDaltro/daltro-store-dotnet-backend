@@ -2,7 +2,7 @@
 
 namespace DaltroStore.ProductCatalog.Domain.Models
 {
-    public class Product : Entity
+    public class Product : Entity, IAggregateRoot
     {
         private string name; 
         private string description; 

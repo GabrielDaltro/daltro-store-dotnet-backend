@@ -13,7 +13,8 @@ namespace DaltroStore.ProductCatalog.Infrastructure.TableConfigurations
             builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Price)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnType("decimal");
 
             builder.Property(p => p.Name)
                 .IsRequired()
@@ -40,23 +41,24 @@ namespace DaltroStore.ProductCatalog.Infrastructure.TableConfigurations
                 .IsRequired();
 
             builder.Property(p => p.Weight)
-                .IsRequired();
+                .IsRequired()
+                .HasColumnType("decimal(4,2)");
 
             builder.OwnsOne(p => p.Dimension, dimension =>
             {
                 dimension.Property(d => d.Height)
                 .HasColumnName("Height")
-                .HasColumnType("decimal")
+                .HasColumnType("decimal(4,4)")
                 .IsRequired();
 
                 dimension.Property(d => d.Width)
                 .HasColumnName("Width")
-                .HasColumnType("decimal")
+                .HasColumnType("decimal(4,4)")
                 .IsRequired();
 
                 dimension.Property(d => d.Depth)
                 .HasColumnName("Depth")
-                .HasColumnType("decimal")
+                .HasColumnType("decimal(4,4)")
                 .IsRequired();
             });
         }

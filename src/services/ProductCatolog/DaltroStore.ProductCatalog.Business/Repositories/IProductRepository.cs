@@ -6,14 +6,14 @@ namespace DaltroStore.ProductCatalog.Domain.Repositories
     {
         Task<IEnumerable<Product>> GetAll();
 
-        Task<Product> GetById(Guid id);
+        Task<Product?> GetById(Guid id);
 
         Task<IEnumerable<Product>> GetByCategory(Guid categoryId);
 
-        Task Add(Product category);
+        void Add(Product product);
 
-        Task Update(Product category);
+        void Update(Product product);
 
-        Task DeleteById(Guid id);
+        void Delete(Product product);
     }
 }

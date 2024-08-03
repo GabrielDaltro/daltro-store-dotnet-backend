@@ -2,7 +2,7 @@
 
 namespace DaltroStore.ProductCatalog.Domain.Models
 {
-    public class Dimesion
+    public class Dimension
     {
         public decimal Width { get; init; }
 
@@ -10,7 +10,7 @@ namespace DaltroStore.ProductCatalog.Domain.Models
 
         public decimal Depth { get; init; }
 
-        public Dimesion(decimal width, decimal height, decimal depth)
+        public Dimension(decimal width, decimal height, decimal depth)
         {
             Width = width; 
             Height = height; 

@@ -11,7 +11,7 @@ namespace DaltroStore.ProductCatalog.Domain.Models
         private Guid categoryId; 
         private uint stockQuantity; 
         private decimal weight; 
-        private Dimesion dimession; 
+        private Dimension dimession; 
         private decimal price; 
         private readonly DateTime registrationDate;
 
@@ -63,12 +63,12 @@ namespace DaltroStore.ProductCatalog.Domain.Models
             get => weight;
         }
 
-        public Dimesion Dimession
+        public Dimension Dimension
         {
             get => dimession;
         }
 
-        public Product(string name, decimal price, string description, bool active, string image, Guid categoryId, DateTime registrationDate, decimal weight, Dimesion dimession)
+        public Product(string name, decimal price, string description, bool active, string image, Guid categoryId, DateTime registrationDate, decimal weight, Dimension dimession)
         {
             this.name = name;
             this.price = price;
@@ -141,7 +141,7 @@ namespace DaltroStore.ProductCatalog.Domain.Models
             weight = newWeight;
         }
 
-        public void ChangeDimession(Dimesion newDimession)
+        public void ChangeDimession(Dimension newDimession)
         {
             dimession = newDimession;
         }

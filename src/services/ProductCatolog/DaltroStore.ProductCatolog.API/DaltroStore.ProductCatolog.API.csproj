@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Domain.csproj" />
-    <ProjectReference Include="..\DaltroStore.ProductCatalog.Data\DaltroStore.ProductCatalog.Data.csproj" />
+    <ProjectReference Include="..\DaltroStore.ProductCatalog.Data\DaltroStore.ProductCatalog.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

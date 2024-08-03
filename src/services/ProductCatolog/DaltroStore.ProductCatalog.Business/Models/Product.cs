@@ -11,7 +11,7 @@ namespace DaltroStore.ProductCatalog.Domain.Models
         private Guid categoryId; 
         private uint stockQuantity; 
         private decimal weight; 
-        private Dimension dimession; 
+        private Dimension dimension; 
         private decimal price; 
         private readonly DateTime registrationDate;
 
@@ -65,10 +65,10 @@ namespace DaltroStore.ProductCatalog.Domain.Models
 
         public Dimension Dimension
         {
-            get => dimession;
+            get => dimension;
         }
 
-        public Product(string name, decimal price, string description, bool active, string image, Guid categoryId, DateTime registrationDate, decimal weight, Dimension dimession)
+        public Product(string name, decimal price, string description, bool active, string image, Guid categoryId, DateTime registrationDate, decimal weight, Dimension dimension)
         {
             this.name = name;
             this.price = price;
@@ -78,10 +78,12 @@ namespace DaltroStore.ProductCatalog.Domain.Models
             this.categoryId = categoryId;
             this.registrationDate = registrationDate;
             this.weight = weight;
-            this.dimession = dimession;
+            this.dimension = dimension;
 
             Validate();
         }
+
+        private Product() { }
 
         public void Activate() => active = true;
 
@@ -143,7 +145,7 @@ namespace DaltroStore.ProductCatalog.Domain.Models
 
         public void ChangeDimession(Dimension newDimession)
         {
-            dimession = newDimession;
+            dimension = newDimession;
         }
 
         public void Validate()
@@ -157,7 +159,7 @@ namespace DaltroStore.ProductCatalog.Domain.Models
             AssertionConcern.AssertIsNotEmpty(image, "product image can not be empty");
             AssertionConcern.AssertIsGreaterThan(minPriceValue, expcted: minPriceValue, $"The product price must be greater than {minPriceValue}");
             AssertionConcern.AssertIsGreaterThan(weight, expcted: minWeightValue, $"The product weight must be greater than {minWeightValue}");
-            dimession.Validate();
+            dimension.Validate();
         }
     }
 }

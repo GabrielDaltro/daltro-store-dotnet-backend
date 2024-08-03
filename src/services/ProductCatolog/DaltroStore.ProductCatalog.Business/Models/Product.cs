@@ -1,6 +1,6 @@
 ﻿using DaltroStore.Core.DomainObjects;
 
-namespace DaltroStore.ProductCatalog.Business.Models
+namespace DaltroStore.ProductCatalog.Domain.Models
 {
     public class Product : Entity
     {

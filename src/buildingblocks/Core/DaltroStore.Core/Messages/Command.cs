@@ -1,6 +1,8 @@
-﻿namespace DaltroStore.Core.Messages
+﻿using DaltroStore.Core.Communication;
+
+namespace DaltroStore.Core.Messages
 {
-    public abstract class Command
+    public abstract class Command<TResponse> : ICommand<TResponse>
     {
         public Guid AggregateId { get; init; }
 

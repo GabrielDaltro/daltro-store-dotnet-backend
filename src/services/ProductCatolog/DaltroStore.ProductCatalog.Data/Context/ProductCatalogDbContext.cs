@@ -17,9 +17,9 @@ namespace DaltroStore.ProductCatalog.Infrastructure.Context
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductCatalogDbContext).Assembly);
         }
 
-        public async Task Commit()
+        public async Task Commit(CancellationToken cancellationToken = default)
         {
-           await SaveChangesAsync();
+           await SaveChangesAsync(cancellationToken);
         }
     }
 }

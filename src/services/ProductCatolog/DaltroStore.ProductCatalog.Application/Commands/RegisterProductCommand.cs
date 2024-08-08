@@ -2,7 +2,7 @@
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {
-    public class RegisterProductCommand : Command<bool>
+    public class RegisterProductCommand : Command<CommandResult>
     {
         public string Name { get; init; }
 
@@ -24,6 +24,8 @@ namespace DaltroStore.ProductCatalog.Application.Commands
 
         public decimal Depth { get; init; }
 
+        public DateTime RegistrationDate { get; init; }
+
         public RegisterProductCommand(string name, decimal price, string description, bool active, string image, 
             Guid categoryId, DateTime registrationDate, decimal weight, decimal width, decimal height, decimal depth)
         {
@@ -37,6 +39,7 @@ namespace DaltroStore.ProductCatalog.Application.Commands
             Width = width;
             Height = height;
             Depth = depth;
+            RegistrationDate = registrationDate;
         }
     }
 }

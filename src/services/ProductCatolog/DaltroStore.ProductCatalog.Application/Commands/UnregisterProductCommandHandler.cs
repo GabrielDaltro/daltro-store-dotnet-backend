@@ -3,6 +3,7 @@ using DaltroStore.Core.Communication;
 using DaltroStore.ProductCatalog.Domain.Models;
 using DaltroStore.ProductCatalog.Domain.Repositories;
 using Microsoft.Extensions.Logging;
+using DaltroStore.Core.DomainObjects;
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {
@@ -26,17 +27,17 @@ namespace DaltroStore.ProductCatalog.Application.Commands
             try
             {
                 Product? product = await productRepository.GetById(command.ProductId);
-                if (product != null)
-                {
-                    productRepository.Delete(product);
-                    await unitOfWork.Commit();
-                }
-                return new CommandResult(success: true, error: string.Empty);
+                if (product == null)
+                    return new CommandResult(CmdResultStatus.AggregateNotFound, error: string.Empty);
+
+                productRepository.Delete(product);
+                await unitOfWork.Commit(cancellationToken);
+                return new CommandResult(CmdResultStatus.Success, error: string.Empty);
             }
-            catch (Exception e)
+            catch (DomainException e)
             {
-                logger.LogError(e, "Error to delete product of Id {Id}", command.ProductId);
-                return new CommandResult(success: false, $"Error to delete product of Id {command.ProductId}");
+                logger.LogError(e, "Error to delete product of Id {Id}.", command.ProductId);
+                return new CommandResult(CmdResultStatus.InvalidDomainOperation, $"Error to delete product of Id {command.ProductId}. {e.Message}");
             }
         }
     }

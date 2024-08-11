@@ -2,13 +2,13 @@
 {
     public class CommandResult
     {
-        public bool Success { get; init; }
+        public CmdResultStatus Status { get; init; }
 
         public string Error { get; init; }
 
-        public CommandResult(bool success, string error)
+        public CommandResult(CmdResultStatus status, string error)
         {
-            Success = success;
+            Status = status;
             Error = error;
         }
     }

@@ -2,6 +2,7 @@
 using DaltroStore.Core.Communication;
 using DaltroStore.ProductCatalog.Domain.Models;
 using DaltroStore.ProductCatalog.Domain.Repositories;
+using DaltroStore.Core.DomainObjects;
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {
@@ -23,11 +24,11 @@ namespace DaltroStore.ProductCatalog.Application.Commands
                 var product = Map(command);
                 productRepository.Add(product);
                 await unitOfWork.Commit(cancellationToken);
-                return new CommandResult(success: true, error: string.Empty);
+                return new CommandResult(CmdResultStatus.Success, error: string.Empty);
             }
-            catch (Exception e)
+            catch (DomainException e)
             {
-                return new CommandResult(success: false, error: e.Message);
+                return new CommandResult(CmdResultStatus.InvalidDomainOperation, error: e.Message);
             }
         }
 

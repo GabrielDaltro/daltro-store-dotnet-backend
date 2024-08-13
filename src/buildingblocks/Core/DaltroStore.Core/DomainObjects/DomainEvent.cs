@@ -6,7 +6,7 @@
 
         public DateTime DateTime { get; init; }
 
-        public DomainEvent()
+        public DomainEvent(Guid AggregateId)
         {
             DateTime = DateTime.UtcNow;
         }

@@ -101,7 +101,7 @@ namespace DaltroStore.ProductCatalog.Domain.Models
 
         public void DecreaseStockQuantity(uint quantity)
         {
-            if (!HasStockQuantity(quantity)) throw new DomainException("Insufficient stock");
+            if (!HasStockQuantity(quantity)) throw new EntityValidationException("Insufficient stock");
             stockQuantity -= quantity;
         }
 

@@ -2,7 +2,7 @@
 
 namespace DaltroStore.ProductCatalog.Domain
 {
-    internal class LowStockProductEvent : DomainEvent
+    public class LowStockProductEvent : DomainEvent
     {
         public uint QuantityRemain { get; init; }
 

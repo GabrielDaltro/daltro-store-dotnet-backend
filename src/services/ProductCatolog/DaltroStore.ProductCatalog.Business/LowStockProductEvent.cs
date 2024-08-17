@@ -4,9 +4,9 @@ namespace DaltroStore.ProductCatalog.Domain
 {
     internal class LowStockProductEvent : DomainEvent
     {
-        public int QuantityRemain { get; init; }
+        public uint QuantityRemain { get; init; }
 
-        public LowStockProductEvent(Guid AggregateId, int quantityRemain) : base(AggregateId)
+        public LowStockProductEvent(Guid AggregateId, uint quantityRemain) : base(AggregateId)
         {
             QuantityRemain = quantityRemain;
         }

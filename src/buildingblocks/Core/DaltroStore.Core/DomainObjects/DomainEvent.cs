@@ -1,6 +1,8 @@
-﻿namespace DaltroStore.Core.DomainObjects
+﻿using DaltroStore.Core.Communication;
+
+namespace DaltroStore.Core.DomainObjects
 {
-    public class DomainEvent
+    public class DomainEvent : IDomainEvent
     {
         public Guid AggregateId { get; init; }
 
@@ -9,6 +11,7 @@
         public DomainEvent(Guid AggregateId)
         {
             DateTime = DateTime.UtcNow;
+            this.AggregateId = AggregateId;
         }
     }
 }

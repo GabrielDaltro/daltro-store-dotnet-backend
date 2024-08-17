@@ -2,6 +2,6 @@
 {
     public interface IEventBus
     {
-        Task Publish<TEvent>(TEvent e, CancellationToken cancellationToken = default) where TEvent : IEvent;
+        Task Publish<TEvent>(TEvent e, CancellationToken cancellationToken = default) where TEvent : IDomainEvent;
     }
 }

@@ -11,9 +11,9 @@ namespace DaltroStore.Core.Communication
             this.mediator = mediator;
         }
 
-        public async Task Publish<TEvent>(TEvent e, CancellationToken cancellationToken = default) where TEvent : IEvent
+        public async Task Publish<TEvent>(TEvent e, CancellationToken cancellationToken = default) where TEvent : IDomainEvent
         {
-            await mediator.Publish(e, cancellationToken);
+            await mediator.Send(e, cancellationToken);
         }
     }
 }

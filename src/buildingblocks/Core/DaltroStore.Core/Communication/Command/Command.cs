@@ -1,6 +1,4 @@
-﻿using DaltroStore.Core.Communication;
-
-namespace DaltroStore.Core.Messages
+﻿namespace DaltroStore.Core.Communication.Command
 {
     public abstract class Command<TResponse> : ICommand<TResponse>
     {

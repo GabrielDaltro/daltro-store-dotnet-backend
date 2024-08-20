@@ -1,8 +1,8 @@
 ﻿using DaltroStore.Core.Data;
-using DaltroStore.Core.Communication;
 using DaltroStore.ProductCatalog.Domain.DomainServices;
 using DaltroStore.Core.DomainObjects;
 using Microsoft.Extensions.Logging;
+using DaltroStore.Core.Communication.Command;
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {

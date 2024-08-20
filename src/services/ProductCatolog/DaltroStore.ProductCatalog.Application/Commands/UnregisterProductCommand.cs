@@ -1,4 +1,4 @@
-﻿using DaltroStore.Core.Messages;
+﻿using DaltroStore.Core.Communication.Command;
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {

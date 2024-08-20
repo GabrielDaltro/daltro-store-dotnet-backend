@@ -1,8 +1,8 @@
 ﻿using DaltroStore.Core.Data;
-using DaltroStore.Core.Communication;
 using DaltroStore.ProductCatalog.Domain.Models;
 using DaltroStore.ProductCatalog.Domain.Repositories;
 using DaltroStore.Core.DomainObjects;
+using DaltroStore.Core.Communication.Command;
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {

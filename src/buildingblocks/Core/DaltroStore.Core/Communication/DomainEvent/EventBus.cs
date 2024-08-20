@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace DaltroStore.Core.Communication
+namespace DaltroStore.Core.Communication.DomainEvent
 {
     public class EventBus : IEventBus 
     {

@@ -1,4 +1,4 @@
-﻿using DaltroStore.Core.Communication;
+﻿using DaltroStore.Core.Communication.DomainEvent;
 using DaltroStore.Core.DomainObjects;
 using DaltroStore.ProductCatalog.Domain.Models;
 using DaltroStore.ProductCatalog.Domain.Repositories;

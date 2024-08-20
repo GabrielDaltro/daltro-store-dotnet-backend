@@ -1,4 +1,4 @@
-﻿using DaltroStore.Core.Communication;
+﻿using DaltroStore.Core.Communication.DomainEvent;
 
 namespace DaltroStore.Core.DomainObjects
 {

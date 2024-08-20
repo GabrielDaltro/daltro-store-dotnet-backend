@@ -1,4 +1,4 @@
-﻿namespace DaltroStore.Core.Communication
+﻿namespace DaltroStore.Core.Communication.DomainEvent
 {
     public interface IEventBus
     {

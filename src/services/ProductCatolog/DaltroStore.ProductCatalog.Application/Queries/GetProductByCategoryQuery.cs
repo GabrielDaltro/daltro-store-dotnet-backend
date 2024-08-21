@@ -1,8 +1,9 @@
 ﻿using DaltroStore.Core.Communication.Query;
+using DaltroStore.ProductCatalog.Application.Queries.ViewModels;
 
 namespace DaltroStore.ProductCatalog.Application.Queries
 {
-    internal class GetProductByCategoryQuery : IQuery<ProductViewModel>
+    public class GetProductByCategoryQuery : IQuery<ProductViewModel>
     {
         public Guid CategoryId { get; init; }
     }

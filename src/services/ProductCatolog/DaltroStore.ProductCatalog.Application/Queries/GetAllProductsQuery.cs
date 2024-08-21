@@ -1,9 +1,9 @@
 ﻿using DaltroStore.Core.Communication.Query;
+using DaltroStore.ProductCatalog.Application.Queries.ViewModels;
 
 namespace DaltroStore.ProductCatalog.Application.Queries
 {
-
-    internal class GetAllProductsQuery : IQuery<ProductViewModel>
+    public class GetAllProductsQuery : IQuery<ProductViewModel>
     {
     }
 }

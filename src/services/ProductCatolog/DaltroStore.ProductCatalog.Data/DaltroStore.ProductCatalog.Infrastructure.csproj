@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DaltroStore.ProductCatalog.Application\DaltroStore.ProductCatalog.Application.csproj" />
     <ProjectReference Include="..\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Domain.csproj" />
   </ItemGroup>
 

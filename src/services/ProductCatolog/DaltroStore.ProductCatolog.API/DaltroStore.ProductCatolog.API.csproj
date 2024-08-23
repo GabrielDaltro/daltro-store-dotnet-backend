@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Domain.csproj" />
     <ProjectReference Include="..\DaltroStore.ProductCatalog.Data\DaltroStore.ProductCatalog.Infrastructure.csproj" />
   </ItemGroup>

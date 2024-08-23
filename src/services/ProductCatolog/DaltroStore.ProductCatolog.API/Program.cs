@@ -13,8 +13,13 @@ builder.Services.AddDbContext<ProductCatalogDbContext>(optionsBuilder =>
         optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")),
         ServiceLifetime.Scoped);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.SuppressModelStateInvalidFilter = true;
+        options.SuppressMapClientErrors = true;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

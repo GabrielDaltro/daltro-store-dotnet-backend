@@ -6,7 +6,7 @@ using DaltroStore.Core.Communication.Command;
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {
-    public class RegisterProductCommandHandler : ICommandHandler<RegisterProductCommand, CommandResult>
+    public class RegisterProductCommandHandler : ICommandHandler<RegisterProductCommand, CommandResult<Guid>>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IProductRepository productRepository;
@@ -17,18 +17,18 @@ namespace DaltroStore.ProductCatalog.Application.Commands
             this.productRepository = productRepository;
         }
 
-        public async Task<CommandResult> Handle(RegisterProductCommand command, CancellationToken cancellationToken)
+        public async Task<CommandResult<Guid>> Handle(RegisterProductCommand command, CancellationToken cancellationToken)
         {
             try
             {
                 var product = Map(command);
                 productRepository.Add(product);
                 await unitOfWork.Commit(cancellationToken);
-                return new CommandResult(CmdResultStatus.Success, error: string.Empty);
+                return new CommandResult<Guid>(CmdResultStatus.Success, product.Id, error: string.Empty);
             }
             catch (DomainException e)
             {
-                return new CommandResult(CmdResultStatus.InvalidDomainOperation, error: e.Message);
+                return new CommandResult<Guid>(CmdResultStatus.InvalidDomainOperation, Guid.Empty, error: e.Message);
             }
         }
 

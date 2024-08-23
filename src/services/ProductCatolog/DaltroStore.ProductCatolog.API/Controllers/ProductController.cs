@@ -21,10 +21,10 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ValidationProblemDetails(ModelState));
 
-            CommandResult commandResult = await commandBus.Send<RegisterProductCommand,CommandResult>(registerProductCommand);
+            CommandResult<Guid> commandResult = await commandBus.Send<RegisterProductCommand,CommandResult<Guid>>(registerProductCommand);
 
             if(commandResult.Status == CmdResultStatus.Success)
-                return CreatedAtAction(nameof(RegisterProduct), commandResult);
+                return CreatedAtAction(nameof(RegisterProduct), new { Id = commandResult.Value });
             
             return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
         }

@@ -15,7 +15,7 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             this.commandBus = commandBus;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult> RegisterProduct(RegisterProductCommand registerProductCommand)
         {
             if (!ModelState.IsValid)
@@ -26,6 +26,20 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             if(commandResult.Status == CmdResultStatus.Success)
                 return CreatedAtAction(nameof(RegisterProduct), new { Id = commandResult.Value });
             
+            return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
+        }
+
+        [HttpPost("unregister")]
+        public async Task<ActionResult> UnregisterProduct(UnregisterProductCommand unregisterCommand)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ValidationProblemDetails(ModelState));
+
+            CommandResult commandResult = await commandBus.Send<UnregisterProductCommand, CommandResult>(unregisterCommand);
+
+            if (commandResult.Status == CmdResultStatus.Success)
+                return Ok();
+
             return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
         }
     }

@@ -37,8 +37,42 @@ namespace DaltroStore.ProductCatolog.API.Controllers
 
             CommandResult commandResult = await commandBus.Send<UnregisterProductCommand, CommandResult>(unregisterCommand);
 
+            if (commandResult.Status == CmdResultStatus.Success || commandResult.Status == CmdResultStatus.AggregateNotFound)
+                return Ok();
+
+            return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
+        }
+
+        [HttpPost("increase-stock")]
+        public async Task<ActionResult> IncreaseProductStock(IncreaseProductStockCommand command)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ValidationProblemDetails(ModelState));
+
+            CommandResult commandResult = await commandBus.Send<IncreaseProductStockCommand, CommandResult>(command);
+            
             if (commandResult.Status == CmdResultStatus.Success)
                 return Ok();
+            
+            if (commandResult.Status == CmdResultStatus.AggregateNotFound)
+                return NotFound(commandResult.Error);
+
+            return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
+        }
+
+        [HttpPost("decrease-stock")]
+        public async Task<ActionResult> DecreaseProductStock(DecreaseProductStockCommand command)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ValidationProblemDetails(ModelState));
+
+            CommandResult commandResult = await commandBus.Send<DecreaseProductStockCommand, CommandResult>(command);
+
+            if (commandResult.Status == CmdResultStatus.Success)
+                return Ok();
+
+            if (commandResult.Status == CmdResultStatus.AggregateNotFound)
+                return NotFound(commandResult.Error);
 
             return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
         }

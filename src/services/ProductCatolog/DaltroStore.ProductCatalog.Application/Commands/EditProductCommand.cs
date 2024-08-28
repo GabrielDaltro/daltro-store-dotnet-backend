@@ -2,7 +2,7 @@
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {
-    public class UpdateProductCommand : Command<CommandResult>
+    public class EditProductCommand : Command<CommandResult>
     {
         public string Name { get; init; }
 
@@ -24,7 +24,7 @@ namespace DaltroStore.ProductCatalog.Application.Commands
 
         public decimal Depth { get; init; }
 
-        public UpdateProductCommand(string name, decimal price, string description, bool active, string image,
+        public EditProductCommand(string name, decimal price, string description, bool active, string image,
                     Guid categoryId, decimal weight, decimal width, decimal height, decimal depth)
         {
             Name = name;

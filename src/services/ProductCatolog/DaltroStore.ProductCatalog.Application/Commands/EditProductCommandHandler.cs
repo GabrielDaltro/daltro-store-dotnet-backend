@@ -7,14 +7,14 @@ using DaltroStore.Core.Communication.Command;
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {
-    public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand, CommandResult>
+    public class EditProductCommandHandler : ICommandHandler<EditProductCommand, CommandResult>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IProductRepository productRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly ILogger logger;
 
-        public UpdateProductCommandHandler(IUnitOfWork unitOfWork,
+        public EditProductCommandHandler(IUnitOfWork unitOfWork,
                                            IProductRepository productRepository,
                                            ICategoryRepository categoryRepository,
                                            ILogger logger)
@@ -25,7 +25,7 @@ namespace DaltroStore.ProductCatalog.Application.Commands
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<CommandResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(EditProductCommand command, CancellationToken cancellationToken)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace DaltroStore.ProductCatalog.Application.Commands
             }
         }
 
-        private void UpdateProductProperties(Product product, Category category, UpdateProductCommand command)
+        private void UpdateProductProperties(Product product, Category category, EditProductCommand command)
         {
             product.ChangeName(command.Name);
             product.ChangeDescription(command.Description);

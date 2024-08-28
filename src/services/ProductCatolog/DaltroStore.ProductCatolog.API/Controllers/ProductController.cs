@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DaltroStore.Core.Communication.Command;
 using DaltroStore.ProductCatalog.Application.Commands;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace DaltroStore.ProductCatolog.API.Controllers
 {
@@ -67,6 +68,23 @@ namespace DaltroStore.ProductCatolog.API.Controllers
                 return BadRequest(new ValidationProblemDetails(ModelState));
 
             CommandResult commandResult = await commandBus.Send<DecreaseProductStockCommand, CommandResult>(command);
+
+            if (commandResult.Status == CmdResultStatus.Success)
+                return Ok();
+
+            if (commandResult.Status == CmdResultStatus.AggregateNotFound)
+                return NotFound(commandResult.Error);
+
+            return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
+        }
+
+        [HttpPost("edit")]
+        public async Task<ActionResult> EditProduct(EditProductCommand editProductCommand)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new ValidationProblemDetails(ModelState));
+
+            CommandResult commandResult = await commandBus.Send<EditProductCommand, CommandResult>(editProductCommand);
 
             if (commandResult.Status == CmdResultStatus.Success)
                 return Ok();

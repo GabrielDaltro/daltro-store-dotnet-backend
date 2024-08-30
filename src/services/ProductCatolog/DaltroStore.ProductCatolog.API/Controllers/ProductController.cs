@@ -105,10 +105,16 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             return await queryBus.Send<GetAllProductsQuery, IEnumerable<ProductViewModel>>(new GetAllProductsQuery());
         }
 
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id:guid}")]
         public async Task<ProductViewModel> GetProductDetails(Guid id)
         {
             return await queryBus.Send<GetProductByIdQuery, ProductViewModel>(new GetProductByIdQuery { ProductId = id});
+        }
+
+        [HttpGet("category/{id:guid}")]
+        public async Task<IEnumerable<ProductViewModel>> GetProductsByCategory(Guid id)
+        {
+            return await queryBus.Send<GetProductByCategoryQuery, IEnumerable<ProductViewModel>>(new GetProductByCategoryQuery() { CategoryId = id});
         }
     }
 }

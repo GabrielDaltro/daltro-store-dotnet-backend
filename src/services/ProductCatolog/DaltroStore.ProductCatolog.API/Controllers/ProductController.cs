@@ -4,6 +4,7 @@ using DaltroStore.ProductCatalog.Application.Commands;
 using DaltroStore.ProductCatalog.Application.Queries.ViewModels;
 using DaltroStore.Core.Communication.Query;
 using DaltroStore.ProductCatalog.Application.Queries;
+using DaltroStore.ProductCatolog.API.DTOs;
 
 namespace DaltroStore.ProductCatolog.API.Controllers
 {
@@ -21,10 +22,13 @@ namespace DaltroStore.ProductCatolog.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> RegisterProduct(RegisterProductCommand registerProductCommand)
+        public async Task<ActionResult> RegisterProduct(ProductRegisterDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ValidationProblemDetails(ModelState));
+
+            var registerProductCommand = new RegisterProductCommand(dto.Name, dto.Price, dto.Description, dto.Active, dto.Image, dto.CategoryId,
+                dto.RegistrationDate, dto.Weight, dto.Width, dto.Height, dto.Depth);
 
             CommandResult<Guid> commandResult = await commandBus.Send<RegisterProductCommand, CommandResult<Guid>>(registerProductCommand);
 
@@ -83,10 +87,13 @@ namespace DaltroStore.ProductCatolog.API.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<ActionResult> EditProduct(EditProductCommand editProductCommand)
+        public async Task<ActionResult> EditProduct(ProductEditDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ValidationProblemDetails(ModelState));
+
+            var editProductCommand = new EditProductCommand(dto.Id, dto.Name, dto.Price, dto.Description, dto.Active, dto.Image, dto.CategoryId,
+                dto.Weight, dto.Width, dto.Height, dto.Depth);
 
             CommandResult commandResult = await commandBus.Send<EditProductCommand, CommandResult>(editProductCommand);
 

@@ -2,7 +2,7 @@
 
 namespace DaltroStore.ProductCatalog.Application.Commands
 {
-    public class RegisterProductCommand : Command<CommandResult<Guid>>
+    public class RegisterProductCommand : ICommand<CommandResult<Guid>>
     {
         public string Name { get; init; }
 

@@ -24,7 +24,7 @@ namespace DaltroStore.ProductCatalog.Application.Commands
 
         public decimal Depth { get; init; }
 
-        public EditProductCommand(string name, decimal price, string description, bool active, string image,
+        public EditProductCommand(Guid aggregateId, string name, decimal price, string description, bool active, string image,
                     Guid categoryId, decimal weight, decimal width, decimal height, decimal depth)
         {
             Name = name;
@@ -37,6 +37,7 @@ namespace DaltroStore.ProductCatalog.Application.Commands
             Width = width;
             Height = height;
             Depth = depth;
+            AggregateId = aggregateId;
         }
     }
 }

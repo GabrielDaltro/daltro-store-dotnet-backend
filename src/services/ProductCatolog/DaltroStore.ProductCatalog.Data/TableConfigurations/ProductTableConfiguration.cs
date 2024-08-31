@@ -48,17 +48,17 @@ namespace DaltroStore.ProductCatalog.Infrastructure.TableConfigurations
             {
                 dimension.Property(d => d.Height)
                 .HasColumnName("Height")
-                .HasColumnType("decimal(4,4)")
+                .HasColumnType("decimal(6,3)")
                 .IsRequired();
 
                 dimension.Property(d => d.Width)
                 .HasColumnName("Width")
-                .HasColumnType("decimal(4,4)")
+                .HasColumnType("decimal(6,3)")
                 .IsRequired();
 
                 dimension.Property(d => d.Depth)
                 .HasColumnName("Depth")
-                .HasColumnType("decimal(4,4)")
+                .HasColumnType("decimal(6,3)")
                 .IsRequired();
             });
         }

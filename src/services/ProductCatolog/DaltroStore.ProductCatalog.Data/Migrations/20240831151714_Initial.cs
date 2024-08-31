@@ -38,9 +38,9 @@ namespace DaltroStore.ProductCatalog.Infrastructure.Migrations
                     StockQuantity = table.Column<long>(type: "bigint", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Weight = table.Column<decimal>(type: "decimal(4,2)", nullable: false),
-                    Width = table.Column<decimal>(type: "decimal(4,4)", nullable: false),
-                    Height = table.Column<decimal>(type: "decimal(4,4)", nullable: false),
-                    Depth = table.Column<decimal>(type: "decimal(4,4)", nullable: false)
+                    Width = table.Column<decimal>(type: "decimal(6,3)", nullable: false),
+                    Height = table.Column<decimal>(type: "decimal(6,3)", nullable: false),
+                    Depth = table.Column<decimal>(type: "decimal(6,3)", nullable: false)
                 },
                 constraints: table =>
                 {

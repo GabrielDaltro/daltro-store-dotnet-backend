@@ -99,15 +99,15 @@ namespace DaltroStore.ProductCatalog.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Depth")
-                                .HasColumnType("decimal(4,4)")
+                                .HasColumnType("decimal(6,3)")
                                 .HasColumnName("Depth");
 
                             b1.Property<decimal>("Height")
-                                .HasColumnType("decimal(4,4)")
+                                .HasColumnType("decimal(6,3)")
                                 .HasColumnName("Height");
 
                             b1.Property<decimal>("Width")
-                                .HasColumnType("decimal(4,4)")
+                                .HasColumnType("decimal(6,3)")
                                 .HasColumnName("Width");
 
                             b1.HasKey("ProductId");

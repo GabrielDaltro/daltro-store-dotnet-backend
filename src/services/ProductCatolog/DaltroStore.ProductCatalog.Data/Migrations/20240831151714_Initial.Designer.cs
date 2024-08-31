@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DaltroStore.ProductCatalog.Infrastructure.Migrations
 {
     [DbContext(typeof(ProductCatalogDbContext))]
-    [Migration("20240803201544_Initial")]
+    [Migration("20240831151714_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -102,15 +102,15 @@ namespace DaltroStore.ProductCatalog.Infrastructure.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Depth")
-                                .HasColumnType("decimal(4,4)")
+                                .HasColumnType("decimal(6,3)")
                                 .HasColumnName("Depth");
 
                             b1.Property<decimal>("Height")
-                                .HasColumnType("decimal(4,4)")
+                                .HasColumnType("decimal(6,3)")
                                 .HasColumnName("Height");
 
                             b1.Property<decimal>("Width")
-                                .HasColumnType("decimal(4,4)")
+                                .HasColumnType("decimal(6,3)")
                                 .HasColumnName("Width");
 
                             b1.HasKey("ProductId");

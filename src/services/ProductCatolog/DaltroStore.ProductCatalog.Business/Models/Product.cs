@@ -68,8 +68,9 @@ namespace DaltroStore.ProductCatalog.Domain.Models
             get => dimension;
         }
 
-        public Product(string name, decimal price, string description, bool active, string image, Guid categoryId, DateTime registrationDate, decimal weight, Dimension dimension)
+        public Product(Guid id, string name, decimal price, string description, bool active, string image, Guid categoryId, DateTime registrationDate, decimal weight, Dimension dimension)
         {
+            Id = id;
             this.name = name;
             this.price = price;
             this.description = description;
@@ -157,7 +158,7 @@ namespace DaltroStore.ProductCatalog.Domain.Models
             AssertionConcern.AssertIsNotEmpty(description, "product description can not be empty");
             AssertionConcern.AssertIsNotNull(image, "product image can not be null");
             AssertionConcern.AssertIsNotEmpty(image, "product image can not be empty");
-            AssertionConcern.AssertIsGreaterThan(minPriceValue, expcted: minPriceValue, $"The product price must be greater than {minPriceValue}");
+            AssertionConcern.AssertIsGreaterThan(price, expcted: minPriceValue, $"The product price must be greater than {minPriceValue}");
             AssertionConcern.AssertIsGreaterThan(weight, expcted: minWeightValue, $"The product weight must be greater than {minWeightValue}");
             dimension.Validate();
         }

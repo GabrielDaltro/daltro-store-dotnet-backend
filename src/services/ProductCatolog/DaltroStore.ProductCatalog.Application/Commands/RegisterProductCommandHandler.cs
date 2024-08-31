@@ -35,6 +35,7 @@ namespace DaltroStore.ProductCatalog.Application.Commands
         private static Product Map(RegisterProductCommand command)
         {
             return new Product(
+                id: Guid.NewGuid(),
                 command.Name,
                 command.Price,
                 command.Description,

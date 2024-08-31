@@ -17,9 +17,9 @@ namespace DaltroStore.ProductCatalog.Application.Commands
         public EditProductCommandHandler(IUnitOfWork unitOfWork,
                                            IProductRepository productRepository,
                                            ICategoryRepository categoryRepository,
-                                           ILogger logger)
+                                           ILoggerFactory loggerFactory)
         {
-            this.logger = logger;
+            this.logger = loggerFactory.CreateLogger(nameof(EditProductCommandHandler));
             this.unitOfWork = unitOfWork;
             this.productRepository = productRepository;
             this.categoryRepository = categoryRepository;

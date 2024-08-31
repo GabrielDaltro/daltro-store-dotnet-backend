@@ -3,7 +3,7 @@ using DaltroStore.ProductCatalog.Domain;
 
 namespace DaltroStore.ProductCatalog.Application.DomainEventHandlers
 {
-    internal class LowStockProductEventHandler : IDomainEventHandler<LowStockProductEvent>
+    public class LowStockProductEventHandler : IDomainEventHandler<LowStockProductEvent>
     {
         public Task Handle(LowStockProductEvent request, CancellationToken cancellationToken)
         {

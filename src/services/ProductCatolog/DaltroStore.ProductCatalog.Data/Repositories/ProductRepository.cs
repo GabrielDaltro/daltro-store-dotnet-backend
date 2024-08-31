@@ -5,7 +5,7 @@ using DaltroStore.ProductCatalog.Infrastructure.Context;
 
 namespace DaltroStore.ProductCatalog.Infrastructure.Repositories
 {
-    internal class ProductRepository : IProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly ProductCatalogDbContext dbContext;
 

@@ -1,4 +1,5 @@
 using DaltroStore.ProductCatalog.Infrastructure.Context;
+using DaltroStore.ProductCatolog.API;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +10,7 @@ builder.Configuration.SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile($"appsettings.{environmentName}.json", optional: false, reloadOnChange: true)
     .Build();
 
-builder.Services.AddDbContext<ProductCatalogDbContext>(optionsBuilder => 
-        optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")),
-        ServiceLifetime.Scoped);
+builder.Services.RegisterServices(builder.Configuration);
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>

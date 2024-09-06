@@ -2,6 +2,8 @@
 {
     public class ProductViewModel 
     {
+        public Guid Id { get; set; }
+
         public string Name { get; init; }
 
         public decimal Price { get; init; }
@@ -20,10 +22,11 @@
 
         public decimal Depth { get; init; }
 
-        public ProductViewModel(string name, decimal price, string description, 
+        public ProductViewModel(Guid id, string name, decimal price, string description, 
                                 string image, decimal weight, decimal width,
                                 decimal height, decimal depth, string category)
         {
+            Id = id;
             Name = name;
             Price = price;
             Description = description;

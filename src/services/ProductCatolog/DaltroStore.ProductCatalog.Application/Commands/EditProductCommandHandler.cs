@@ -31,11 +31,11 @@ namespace DaltroStore.ProductCatalog.Application.Commands
             {
                 Product? product = await productRepository.GetById(command.AggregateId);
                 if (product == null)
-                    return new CommandResult(CmdResultStatus.AggregateNotFound, error: $"Product of {command.AggregateId} was not found.");
+                    return new CommandResult(CmdResultStatus.AggregateNotFound, error: $"Product of Id {command.AggregateId} was not found.");
 
                 Category? category = await categoryRepository.GetById(command.CategoryId);
                 if (category == null)
-                    return new CommandResult(CmdResultStatus.AggregateNotFound, error: $"Category of {command.CategoryId} was not found.");
+                    return new CommandResult(CmdResultStatus.AggregateNotFound, error: $"Category of Id {command.CategoryId} was not found.");
 
                 UpdateProductProperties(product, category, command);
                 productRepository.Update(product);

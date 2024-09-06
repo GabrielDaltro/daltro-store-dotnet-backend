@@ -17,21 +17,11 @@ namespace DaltroStore.ProductCatalog.Infrastructure.QueriesHandler
 
         public async Task<ProductViewModel?> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            Product? product = await dbContext.Products.FindAsync(request.ProductId);
+            Product? product = await dbContext.Products.FindAsync(request.ProductId, cancellationToken);
             if (product == null) return null;
-            
-            Category? category = await dbContext.Categories.FindAsync(product.CategoryId);
-            return new ProductViewModel(
-                product.Name,
-                product.Price,
-                product.Description,
-                product.Image,
-                product.Weight,
-                product.Dimension.Width,
-                product.Dimension.Height,
-                product.Dimension.Depth,
-                category?.Name ?? string.Empty
-                );
+
+            Category? category = await dbContext.Categories.FindAsync(product.CategoryId, cancellationToken);
+            return ProductMapper.ToViewModel(product, category);
         }
     }
 }

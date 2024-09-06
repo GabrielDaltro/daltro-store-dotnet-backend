@@ -55,6 +55,7 @@ namespace DaltroStore.ProductCatolog.API
             services.AddScoped<IRequestHandler<IncreaseProductStockCommand, CommandResult>, IncreaseProductStockCommandHandler>();
             services.AddScoped<IRequestHandler<DecreaseProductStockCommand, CommandResult>, DecreaseProductStockCommandHandler>();
             services.AddScoped<IRequestHandler<GetProductByIdQuery, ProductViewModel?>, GetProductByIdQueryHandler>();
+            services.AddScoped<IRequestHandler<GetAllProductsQuery,IEnumerable<ProductViewModel>>, GetAllProductsQueryHandler>();
             
             return services;
         }

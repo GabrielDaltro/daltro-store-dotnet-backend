@@ -7,7 +7,7 @@ namespace DaltroStore.ProductCatalog.Application.DomainEventHandlers
     {
         public Task Handle(LowStockProductEvent request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }

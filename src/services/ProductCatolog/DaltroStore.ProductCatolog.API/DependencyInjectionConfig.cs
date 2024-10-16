@@ -46,7 +46,7 @@ namespace DaltroStore.ProductCatolog.API
             services.AddScoped<StockService>();
 
             //Domain Event Handlers
-            services.AddScoped<IDomainEventHandler<LowStockProductEvent>, LowStockProductEventHandler>();
+            services.AddScoped<IRequestHandler<LowStockProductEvent>, LowStockProductEventHandler>();
 
             // Commands and Queries handlers
             services.AddScoped<IRequestHandler<RegisterProductCommand, CommandResult<Guid>>, RegisterProductCommandHandler>();

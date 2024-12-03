@@ -18,8 +18,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\DaltroStore.Auth\DaltroStore.Auth.csproj" />
     <ProjectReference Include="..\DaltroStore.ProductCatalog.Business\DaltroStore.ProductCatalog.Domain.csproj" />
     <ProjectReference Include="..\DaltroStore.ProductCatalog.Data\DaltroStore.ProductCatalog.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

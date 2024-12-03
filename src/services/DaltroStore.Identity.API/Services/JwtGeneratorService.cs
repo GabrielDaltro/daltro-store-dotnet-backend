@@ -1,4 +1,4 @@
-﻿using DaltroStore.Identity.API.Extensions;
+﻿using DaltroStore.Auth.Jwt;
 using DaltroStore.Identity.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;

@@ -5,10 +5,13 @@ using DaltroStore.ProductCatalog.Application.Queries.ViewModels;
 using DaltroStore.Core.Communication.Query;
 using DaltroStore.ProductCatalog.Application.Queries;
 using DaltroStore.ProductCatolog.API.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using DaltroStore.Auth.Claims;
 
 namespace DaltroStore.ProductCatolog.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/v1/[controller]")]
     public class ProductController : ControllerBase
     {
@@ -21,6 +24,7 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             this.queryBus = queryBus;
         }
 
+        [ClaimsAuthorize("Catalog","create")]
         [HttpPost("register")]
         public async Task<ActionResult> RegisterProduct(ProductRegisterDto dto)
         {
@@ -38,6 +42,7 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
         }
 
+        [ClaimsAuthorize("Catalog", "delete")]
         [HttpPost("unregister")]
         public async Task<ActionResult> UnregisterProduct(UnregisterProductCommand unregisterCommand)
         {
@@ -52,6 +57,7 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
         }
 
+        [ClaimsAuthorize("Catalog", "update")]
         [HttpPost("increase-stock")]
         public async Task<ActionResult> IncreaseProductStock(IncreaseProductStockCommand command)
         {
@@ -69,6 +75,7 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
         }
 
+        [ClaimsAuthorize("Catalog", "update")]
         [HttpPost("decrease-stock")]
         public async Task<ActionResult> DecreaseProductStock(DecreaseProductStockCommand command)
         {
@@ -86,6 +93,7 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
         }
 
+        [ClaimsAuthorize("Catalog", "update")]
         [HttpPost("edit")]
         public async Task<ActionResult> EditProduct(ProductEditDto dto)
         {
@@ -106,18 +114,21 @@ namespace DaltroStore.ProductCatolog.API.Controllers
             return Problem(statusCode: StatusCodes.Status400BadRequest, title: commandResult.Error);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IEnumerable<ProductViewModel>> GetAllProducts()
         {
             return await queryBus.Send<GetAllProductsQuery, IEnumerable<ProductViewModel>>(new GetAllProductsQuery());
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:guid}")]
         public async Task<ProductViewModel> GetProductDetails(Guid id)
         {
             return await queryBus.Send<GetProductByIdQuery, ProductViewModel>(new GetProductByIdQuery { ProductId = id});
         }
 
+        [AllowAnonymous]
         [HttpGet("category/{id:guid}")]
         public async Task<IEnumerable<ProductViewModel>> GetProductsByCategory(Guid id)
         {

@@ -1,4 +1,4 @@
-﻿namespace DaltroStore.Identity.API.Extensions
+﻿namespace DaltroStore.Auth.Jwt
 {
     public class AppSettings
     {

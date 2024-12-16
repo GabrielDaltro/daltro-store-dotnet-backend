@@ -10,10 +10,10 @@ namespace DaltroStore.Auth.Jwt
     {
         public static IServiceCollection ConfigureJwt(this IServiceCollection services, IConfiguration configuration) 
         {
-            IConfigurationSection appSettingsSection = configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
+            IConfigurationSection appSettingsSection = configuration.GetSection("JwtSettings");
+            services.Configure<JwtSettings>(appSettingsSection);
 
-            AppSettings appSettings = appSettingsSection.Get<AppSettings>() ?? throw new Exception("AppSettings is null");
+            JwtSettings appSettings = appSettingsSection.Get<JwtSettings>() ?? throw new Exception("JwtSettings is null");
 
             services.AddAuthentication(options =>
             {

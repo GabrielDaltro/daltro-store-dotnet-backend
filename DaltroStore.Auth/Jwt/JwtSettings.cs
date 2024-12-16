@@ -1,6 +1,6 @@
 ﻿namespace DaltroStore.Auth.Jwt
 {
-    public class AppSettings
+    public class JwtSettings
     {
         public string Secret { get; set; } = string.Empty;
 

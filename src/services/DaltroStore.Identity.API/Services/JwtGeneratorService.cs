@@ -12,9 +12,9 @@ namespace DaltroStore.Identity.API.Services
     public class JwtGeneratorService
     {
         private readonly UserManager<IdentityUser> userManager;
-        private readonly AppSettings appSettings;
+        private readonly JwtSettings appSettings;
 
-        public JwtGeneratorService(UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings)
+        public JwtGeneratorService(UserManager<IdentityUser> userManager, IOptions<JwtSettings> appSettings)
         {
             this.userManager = userManager;
             this.appSettings = appSettings.Value;
